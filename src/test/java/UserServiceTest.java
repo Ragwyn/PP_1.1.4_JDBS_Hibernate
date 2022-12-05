@@ -4,7 +4,9 @@ import jm.task.core.jdbc.service.UserServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 
 public class UserServiceTest {
@@ -13,6 +15,9 @@ public class UserServiceTest {
     private final String testName = "Ivan";
     private final String testLastName = "Ivanov";
     private final byte testAge = 5;
+
+    public UserServiceTest() throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    }
 
 
     @Test

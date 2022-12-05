@@ -1,28 +1,38 @@
 package jm.task.core.jdbc.util;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 
 public class Util {
-    private final String URL = "";
-    private final String USERNAME = "";
-    private final String PASSWORD = "";
 
+    private static Util instance;
     private Connection connection;
-    Driver driver;
+    private static final String DB_Driver = "";
+    private static final String username = "";
+    private static final String password = "";
+    private static final String url = "";
 
-    public Util() {
+    protected Util() throws SQLException {
         try {
-            driver = new com.mysql.cj.jdbc.Driver();
-            DriverManager.registerDriver(driver);
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-
-        } catch (SQLException e) {
-            System.out.println("Соединение не установлено");
+            Class.forName(DB_Driver);
+            this.connection = DriverManager.getConnection(url, username, password);
+        } catch (ClassNotFoundException ex) {
+            System.out.println("Database Connection Creation Failed : " + ex.getMessage());
         }
     }
-
-    public Connection getConnection()
-    {
+    public Connection getConnection() {
         return connection;
+    }
+
+    public static Util getInstance() throws SQLException {
+        if (instance == null) {
+            instance = new Util();
+        } else if (instance.getConnection().isClosed()) {
+            instance = new Util();
+        }
+
+        return instance;
     }
 }
